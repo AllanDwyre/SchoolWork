@@ -399,7 +399,8 @@ prompt -- 2 DUPOND
 
 
 /*
-VOTRE REPONSE ICI
+Select num_ab, nom from Abonne
+Where nom IN(Select nom from Abonne group by nom having count(*) > 1)
 */
 
 
