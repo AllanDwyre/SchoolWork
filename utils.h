@@ -210,7 +210,7 @@ OCTET* buildDilatation(OCTET *pt_image, bool (*pattern)(OCTET*, int, int, int, b
 				continue;
 			}
 
-			ImgOut[getIndice(u,v,width)] = pattern(pt_image, u, v, width, true) ? 255 : 0;
+			ImgOut[getIndice(u,v,width)] = pattern(pt_image, u, v, width, false) ? 255 : 0;
 		}
 	}
 
