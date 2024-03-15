@@ -189,9 +189,9 @@ OCTET* buildErrosion(OCTET *pt_image, bool (*pattern)(OCTET*, int, int, int, boo
 	{
 		for (int v=0; v < height; v++)
 		{
-			if(isImageBorder(u, v, width, height) || isWhite(getColor(pt_image, 0, u, v, width)))
+			if(isImageBorder(u, v, width, height) || isWhite(getColor(pt_image, GREY, u, v, width)))
 			{
-				ImgOut[getIndice(u,v,width)] = getColor(pt_image, 0, u, v, width); // unchanged color if is border
+				ImgOut[getIndice(u,v,width)] = getColor(pt_image, GREY, u, v, width); // unchanged color if is border
 				continue;
 			}
 
@@ -213,9 +213,9 @@ OCTET* buildDilatation(OCTET *pt_image, bool (*pattern)(OCTET*, int, int, int, b
 	{
 		for (int v=0; v < height; v++)
 		{
-			if(isImageBorder(u, v, width, height) || isBlack(getColor(pt_image, 0, u, v, width)))
+			if(isImageBorder(u, v, width, height) || isBlack(getColor(pt_image, GREY, u, v, width)))
 			{
-				ImgOut[getIndice(u,v,width)] = getColor(pt_image, 0, u, v, width);
+				ImgOut[getIndice(u,v,width)] = getColor(pt_image, GREY, u, v, width);
 				continue;
 			}
 
@@ -235,7 +235,7 @@ bool CustomPattern(OCTET* imageIn, int* mask, int maskW, int maskH, bool allOnly
 		{
 			if (mask[getIndice(umask, vmask, maskW)])
 			{
-				int color = getColor(imageIn, 0, u + umask, v + vmask, width);
+				int color = getColor(imageIn, GREY, u + umask, v + vmask, width);
 				res = allOnly ? color * res : color + res;
 			}
 		}
