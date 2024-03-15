@@ -1,5 +1,14 @@
 #include "image_ppm.h"
 #include <stdio.h>
+
+/*===========================================================================*/
+/*===========================================================================*/
+
+#define GREY = 0;
+#define RED = 1;
+#define GREEN = 2;
+#define BLUE = 3;
+
 /*===========================================================================*/
 /*===========================================================================*/
 
@@ -42,7 +51,7 @@ int getColor(OCTET *pt_image, int channel, int u, int v, int width)
 	return pt_image[getIndice(u, v, width)];
 }
 
-void setColor(OCTET *pt_image, int value, int u, int v, int width, int channel = 0)
+void setColor(OCTET *pt_image, int value, int u, int v, int width, int channel = GREY)
 {
 	if(channel == 1)
 		pt_image[getIndiceRed(u, v, width)] = value;
@@ -57,7 +66,7 @@ void setColor(OCTET *pt_image, int value, int u, int v, int width, int channel =
 /*===========================================================================*/
 
 // histograme have to be free to prevent leak of memory.
-int* buildHisto(OCTET *pt_image, int width, int height, int channel = 0)
+int* buildHisto(OCTET *pt_image, int width, int height, int channel = GREY)
 {
 	int* histograme = (int*)calloc(255, sizeof(int));
 
@@ -100,7 +109,7 @@ void printHistoColor(int** histogrames)
 
 
 // profile have to be free to prevent leak of memory.
-int* buildProfile(OCTET *pt_image, int pos, bool isLine, int width, int height, int channel = 0)
+int* buildProfile(OCTET *pt_image, int pos, bool isLine, int width, int height, int channel = GREY)
 {
 	int linelenght = isLine ? width : height;
 
@@ -269,16 +278,18 @@ bool SquarePattern(OCTET* imageIn, int u, int v, int width, bool allOnly = true)
 /*===========================================================================*/
 /*================================channel===========================================*/
 
-OCTET* buildInverse(OCTET *pt_image, int width, int height)
+OCTET* buildInverse(OCTET *pt_image, int width, int height, int channel = GREY)
 {
 	OCTET *ImgOut;
 	allocation_tableau(ImgOut, OCTET, width * height);
 
-	for (int i=0; i < width; i++)
+	for (int u=0; u < width; u++)
 	{
-		ImgOut[i] = 255 - pt_image[i];
+		for (int v=0; v < height; v++)
+		{
+			ImgOut[i] = 255 - getColor(pt_image, channel, u, v, width);
+		}
 	}
-
 	return ImgOut;
 }
 
